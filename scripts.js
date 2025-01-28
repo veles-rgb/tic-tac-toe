@@ -5,32 +5,34 @@ function gameBoard() {
 
     // Create 2d array of board
     for (let r = 0; r < rows; r++) {
-        board[r] = [];
+        board[r] = []; // Each board row becomes an array
         for (let c = 0; c < columns; c++) {
-            board[r].push(Cell());
+            board[r].push(Cell()); // For each row add array of 3 cells
         };
     };
 
     // Print board to console
     const printBoard = () => {
+        // Transform the board into a nested array of cell values by mapping over rows and their cells
         const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
         console.log(boardWithCellValues);
     };
 
     return {
-        printBoard
+        printBoard // Make accessible to application
     }
 };
 
-gameBoard().printBoard() // Test printBoard
-
 // Create cells in game board squares
 function Cell() {
-    let value = "[ ]";
+    let value = " "; // Set empty space as default value
 
-    const getValue = () => value;
+    const getValue = () => value; // Get / set value for each cell
 
     return {
-        getValue
+        getValue // Make accessible to application
     };
 };
+
+// Test printBoard
+gameBoard().printBoard()
