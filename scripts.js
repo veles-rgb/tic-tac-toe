@@ -28,6 +28,7 @@ function gameBoard() {
 
     // Display board in console with cell values.
     function displayBoard() {
+        // Transform the board into a new 2D array containing the values of each cell, then print it.
         const printBoard = board.map((row) => row.map((cell) => cell.getValue()));
         console.log(printBoard);
     };
@@ -104,9 +105,9 @@ function gameController(
             board.placeSymbol(row, column, getActivePlayer().symbol);
         }
 
-        // Check for winner (3 consecutive cells).
+        // Check for winner (3 consecutive cells, horizontally, vertically, diagonally).
         const checkWinner = () => {
-
+            
         }
 
         // Switch player turn and print new round if turn successful.
