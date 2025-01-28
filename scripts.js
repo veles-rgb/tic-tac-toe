@@ -3,36 +3,100 @@ function gameBoard() {
     const columns = 3;
     const board = [];
 
-    // Create 2d array of board
     for (let r = 0; r < rows; r++) {
-        board[r] = []; // Each board row becomes an array
+        board[r] = [];
         for (let c = 0; c < columns; c++) {
-            board[r].push(Cell()); // For each row add array of 3 cells
+            board[r].push(Cell());
+        }
+    }
+
+    const getBoard = () => board;
+
+    function placeSymbol(row, column, player) {
+        const cellChoice = board[row][column]
+
+        if (cellChoice.getValue() === "") {
+            cellChoice.setValue(player)
+            return true
+        } else {
+            return false
+        }
+    };
+
+    function displayBoard() {
+        const printBoard = board.map((row) => row.map((cell) => cell.getValue()));
+        console.log(printBoard);
+    };
+
+    return { getBoard, placeSymbol, displayBoard };
+};
+
+function Cell() {
+    let value = "";
+
+    const setValue = (player) => {
+        value = player
+    };
+
+    const getValue = () => value;
+
+    return { setValue, getValue };
+};
+
+function gameController(
+    playerOneName = "Player 1",
+    playerTwoName = "Player 2"
+) {
+    const board = gameBoard();
+
+    const players = [
+        {
+            name: playerOneName,
+            symbol: "X"
+        },
+        {
+            name: playerTwoName,
+            symbol: "O"
+        }
+    ];
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        if (activePlayer === players[0]) {
+            activePlayer = players[1];
+        } else if (activePlayer === players[1]) {
+            activePlayer = players[0];
         };
     };
 
-    // Print board to console
-    const printBoard = () => {
-        // Transform the board into a nested array of cell values by mapping over rows and their cells
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
-        console.log(boardWithCellValues);
-    };
+    const getActivePlayer = () => activePlayer;
 
-    return {
-        printBoard // Make accessible to application
+    const printNewRound = () => {
+        board.displayBoard();
+        console.log(`${getActivePlayer().name}'s turn`);
     }
-};
 
-// Create cells in game board squares
-function Cell() {
-    let value = " "; // Set empty space as default value
+    const playRound = (row, column) => {
+        if (!board.placeSymbol(row, column, getActivePlayer().symbol)) {
+            console.log("You cannot place your symbol here!")
+            !switchPlayerTurn();
+        } else {
+            console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
+            board.placeSymbol(row, column, getActivePlayer().symbol);
+        }
 
-    const getValue = () => value; // Get / set value for each cell
+        const checkWinner = () => {
+            
+        }
 
-    return {
-        getValue // Make accessible to application
+        switchPlayerTurn();
+        printNewRound();
     };
+
+    printNewRound();
+
+    return { playRound, getActivePlayer };
 };
 
-// Test printBoard
-gameBoard().printBoard()
+const game = gameController();
