@@ -111,7 +111,7 @@ function gameController(
         };
 
         // Switch player turn and print new round if turn successful.
-        checkForWin()
+        checkForWin(); // Probably will need to move this?
         switchPlayerTurn();
         printNewRound();
     };
@@ -129,13 +129,12 @@ function gameController(
                 mapFlatBoard[winCombo[combo][1]] ===
                 mapFlatBoard[winCombo[combo][2]] &&
                 mapFlatBoard[winCombo[combo][2]] !== "") {
-                console.log("Winning Combo!!!")
-                return
-            } else {
-                console.log("Nope.")
-            }
-        }
-    }
+                console.log("Winning Combo!!!");
+                return true
+            };
+        };
+        return false
+    };
 
     // Print new round if player cannot place on cell.
     printNewRound();
@@ -144,3 +143,5 @@ function gameController(
 };
 
 const game = gameController();
+
+// TODO : Figure out how to stop game when there is a winner.
