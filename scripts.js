@@ -11,19 +11,18 @@ function gameBoard() {
         }
     }
 
-
     const getBoard = () => board;
 
     // Place symbol in cell if empty, otherwise return false.
     function placeSymbol(row, column, player) {
-        const cellChoice = board[row][column]
+        const cellChoice = board[row][column];
 
         if (cellChoice.getValue() === "") {
-            cellChoice.setValue(player)
-            return true
+            cellChoice.setValue(player);
+            return true;
         } else {
-            return false
-        }
+            return false;
+        };
     };
 
     // Display board in console with cell values.
@@ -43,7 +42,7 @@ function Cell() {
 
     // Change cell value to player symbol.
     const setValue = (player) => {
-        value = player
+        value = player;
     };
 
     // Grab current cell value.
@@ -91,24 +90,24 @@ function gameController(
     const printNewRound = () => {
         board.displayBoard();
         console.log(`${getActivePlayer().name}'s turn`);
-    }
+    };
 
     // Play round based on chosen row & column.
     const playRound = (row, column) => {
         // If cell choice is not empty, replay turn.
         if (!board.placeSymbol(row, column, getActivePlayer().symbol)) {
-            console.log("You cannot place your symbol here!")
+            console.log("You cannot place your symbol here!");
             !switchPlayerTurn();
         } else {
             // Play turn if empty cell.
             console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
             board.placeSymbol(row, column, getActivePlayer().symbol);
-        }
+        };
 
         // Check for winner (3 consecutive cells, horizontally, vertically, diagonally).
         const checkWinner = () => {
-            
-        }
+            // my brain hurts...
+        };
 
         // Switch player turn and print new round if turn successful.
         switchPlayerTurn();
