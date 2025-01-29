@@ -11,6 +11,12 @@ function gameBoard() {
         }
     }
 
+    const winCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontally
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertically
+        [0, 4, 8], [2, 4, 6] // Diagonally
+    ];
+
     const getBoard = () => board;
 
     // Place symbol in cell if empty, otherwise return false.
@@ -32,7 +38,7 @@ function gameBoard() {
         console.log(printBoard);
     };
 
-    return { getBoard, placeSymbol, displayBoard };
+    return { winCombinations, getBoard, placeSymbol, displayBoard };
 };
 
 // Get / Set cell values.
@@ -104,15 +110,16 @@ function gameController(
             board.placeSymbol(row, column, getActivePlayer().symbol);
         };
 
-        // Check for winner (3 consecutive cells, horizontally, vertically, diagonally).
-        const checkWinner = () => {
-            // my brain hurts...
-        };
-
         // Switch player turn and print new round if turn successful.
+        checkForWin()
         switchPlayerTurn();
         printNewRound();
     };
+
+    const checkForWin = () => {
+        const flatBoard = board.getBoard().flat()
+        console.log(flatBoard)
+    }
 
     // Print new round if player cannot place on cell.
     printNewRound();
