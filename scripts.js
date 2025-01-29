@@ -121,8 +121,8 @@ function gameController(
         const flatBoard = board.getBoard().flat()
         // map over flatBoard and replace each cell with its value.
         const mapFlatBoard = flatBoard.map(cell => cell.getValue())
-        const winCombo = board.winCombinations;
         // Loop through winning combos and compare with mapFlatBoard indices.
+        const winCombo = board.winCombinations;
         for (let combo = 0; combo < winCombo.length; combo++) {
             if (mapFlatBoard[winCombo[combo][0]] ===
                 mapFlatBoard[winCombo[combo][1]] &&
