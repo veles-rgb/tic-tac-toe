@@ -117,15 +117,24 @@ function gameController(
     };
 
     const checkForWin = () => {
-        // Turn 2D array of board into a flat array
+        // Turn 2D array of board into a flat array.
         const flatBoard = board.getBoard().flat()
-        // map over flatBoard and replace each cell with its value
+        // map over flatBoard and replace each cell with its value.
         const mapFlatBoard = flatBoard.map(cell => cell.getValue())
-        console.log(mapFlatBoard)
-        // check if any winCombinations indices hold the same non-empty value ("X" or "O")
-            // Get the values at the corresponding indices in flatBoard.
-            // Check if they are all the same (and not empty).
-            // If true a player has won
+        const winCombo = board.winCombinations;
+        // Loop through winning combos and compare with mapFlatBoard indices.
+        for (let combo = 0; combo < winCombo.length; combo++) {
+            if (mapFlatBoard[winCombo[combo][0]] ===
+                mapFlatBoard[winCombo[combo][1]] &&
+                mapFlatBoard[winCombo[combo][1]] ===
+                mapFlatBoard[winCombo[combo][2]] &&
+                mapFlatBoard[winCombo[combo][2]] !== "") {
+                console.log("Winning Combo!!!")
+                return
+            } else {
+                console.log("Nope.")
+            }
+        }
     }
 
     // Print new round if player cannot place on cell.
