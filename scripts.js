@@ -110,10 +110,16 @@ function gameController(
             board.placeSymbol(row, column, getActivePlayer().symbol);
         };
 
-        // Switch player turn and print new round if turn successful.
-        checkForWin(); // Probably will need to move this?
-        switchPlayerTurn();
-        printNewRound();
+        // Check for win
+        // switch player turn and print new round if turn successful.
+        // Otherwise end game
+        if (!checkForWin()) {
+            switchPlayerTurn();
+            printNewRound();
+        } else {
+            board.displayBoard()
+            console.log("Game Over!")
+        }
     };
 
     const checkForWin = () => {
@@ -130,18 +136,76 @@ function gameController(
                 mapFlatBoard[winCombo[combo][2]] &&
                 mapFlatBoard[winCombo[combo][2]] !== "") {
                 console.log("Winning Combo!!!");
-                return true
+                return true;
             };
         };
-        return false
+        return false;
+    };
+
+    // Function to reset game
+    const resetGame = () => {
+
     };
 
     // Print new round if player cannot place on cell.
     printNewRound();
 
-    return { playRound, getActivePlayer };
+    return { getBoard: board.getBoard, playRound, getActivePlayer };
 };
 
-const game = gameController();
+function displayController() {
+    const game = gameController();
+    const turnDiv = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
 
-// TODO : Figure out how to stop game when there is a winner.
+    const updateDisplay = () => {
+        // clear the board
+        boardDiv.textContent = "";
+
+        // get the newest version of the board and player turn
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        // Display player's turn
+        turnDiv.textContent = `${activePlayer.name}'s turn.`;
+
+        // Render board cells
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                // Create buttons for each cell
+                const cellBtn = document.createElement("button");
+                // Add cell class
+                cellBtn.classList.add("cell");
+                // Add dataset for row and column index
+                const cellIndex = rowIndex * 3 + columnIndex;
+                cellBtn.setAttribute("cell-index", cellIndex);
+                // Change cell text content
+                cellBtn.textContent = cell.getValue();
+                // Append cell
+                boardDiv.appendChild(cellBtn);
+            });
+        });
+    };
+
+
+    // Add event listener to board
+    function boardClickHandler(e) {
+        const selectedCell = e.target;
+        const cellIndex = selectedCell.getAttribute("cell-index");
+
+        if (!cellIndex) return;
+
+        // Convert cellIndex to row and column
+        const row = Math.floor(cellIndex / 3);
+        const column = cellIndex % 3;
+
+        game.playRound(row, column);
+        updateDisplay();
+    };
+
+    boardDiv.addEventListener("click", boardClickHandler);
+
+    updateDisplay();
+};
+
+displayController();
