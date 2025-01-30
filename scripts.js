@@ -142,11 +142,6 @@ function gameController(
         return false;
     };
 
-    // Function to reset game
-    const resetGame = () => {
-
-    };
-
     // Print new round if player cannot place on cell.
     printNewRound();
 
@@ -187,7 +182,6 @@ function displayController() {
         });
     };
 
-
     // Add event listener to board
     function boardClickHandler(e) {
         const selectedCell = e.target;
@@ -209,3 +203,9 @@ function displayController() {
 };
 
 displayController();
+
+// TO DO //
+// Add game over functionality (game stops when win, remove eventListeners?)
+// Add Winner message modal with restart button
+// Add modal for players names with start game button
+// Add reset game button at bottom of page
