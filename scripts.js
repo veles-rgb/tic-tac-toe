@@ -158,11 +158,11 @@ function gameController(
         return flatBoard.every(cell => cell.getValue() !== "");
     };
 
-    return { getBoard: board.getBoard, playRound, getActivePlayer, gameOver, checkForWin, checkForTie };
+    return { getBoard: board.getBoard, playRound, getActivePlayer, gameOver, checkForWin, checkForTie, players };
 };
 
-function displayController() {
-    const game = gameController();
+function displayController(playerOneName = "Player 1", playerTwoName = "Player 2") {
+    const game = gameController(playerOneName, playerTwoName);
     const turnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
@@ -224,7 +224,26 @@ function displayController() {
     updateDisplay();
 };
 
-displayController();
+(function () {
+    const startBtn = document.querySelector(".start-btn");
+    const playerNameModal = document.querySelector(".name-modal");
+    const startGameBtn = document.querySelector(".start-game-btn");
+    const playerOneInput = document.querySelector("#player1name");
+    const playerTwoInput = document.querySelector("#player2name");
+
+    startBtn.addEventListener("click", () => {
+        playerNameModal.showModal();
+    });
+
+    startGameBtn.addEventListener("click", () => {
+        const playerOneName = playerOneInput.value || "Player 1";
+        const playerTwoName = playerTwoInput.value || "Player 2";
+
+        displayController(playerOneName, playerTwoName);
+        playerNameModal.close();
+    });
+})()
+
 
 // TO DO // In no particular order.
 // Add Winner message modal with restart button (find who the winner is.)
