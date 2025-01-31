@@ -77,6 +77,9 @@ function gameController(
         }
     ];
 
+    // Game over flag.
+    let gameOver = false
+
     // Set active player.
     let activePlayer = players[0];
 
@@ -100,26 +103,33 @@ function gameController(
 
     // Play round based on chosen row & column.
     const playRound = (row, column) => {
-        // If cell choice is not empty, replay turn.
+        if (gameOver) return;
+
+        // If cell choice is not empty, replay turn, otherwise play.
         if (!board.placeSymbol(row, column, getActivePlayer().symbol)) {
             console.log("You cannot place your symbol here!");
-            !switchPlayerTurn();
-        } else {
-            // Play turn if empty cell.
-            console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
-            board.placeSymbol(row, column, getActivePlayer().symbol);
-        };
-
-        // Check for win
-        // switch player turn and print new round if turn successful.
-        // Otherwise end game
-        if (!checkForWin()) {
-            switchPlayerTurn();
-            printNewRound();
-        } else {
-            board.displayBoard()
-            console.log("Game Over!")
+            return
         }
+
+        // If player can place symbol log in console.
+        console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
+
+        // Check for a win.
+        if (checkForWin()) {
+            console.log("Win check true.")
+            gameOver = true
+            return
+        }
+
+        // Check for a tie.
+        if (checkForTie()) {
+            console.log("Tie check true.")
+            gameOver = true
+            return
+        }
+
+        switchPlayerTurn();
+        printNewRound();
     };
 
     const checkForWin = () => {
@@ -135,15 +145,17 @@ function gameController(
                 mapFlatBoard[winCombo[combo][1]] ===
                 mapFlatBoard[winCombo[combo][2]] &&
                 mapFlatBoard[winCombo[combo][2]] !== "") {
-                console.log("Winning Combo!!!");
+                console.log("Winning Combo detected");
                 return true;
             };
         };
         return false;
     };
 
-    // Print new round if player cannot place on cell.
-    printNewRound();
+    const checkForTie = () => {
+        const flatBoard = board.getBoard().flat();
+        return flatBoard.every(cell => cell.getValue() !== "");
+    };
 
     return { getBoard: board.getBoard, playRound, getActivePlayer };
 };
@@ -205,8 +217,6 @@ function displayController() {
 displayController();
 
 // TO DO // In no particular order.
-// Add functionality for tie game (if board full and no winner = tie)
-// Add game over functionality (game stops when win or tie, remove eventListeners?)
-// Add Winner message modal with restart button
+// Add Winner message modal with restart button (find who the winner is.)
 // Add modal for players names with start game button
 // Add reset game button at bottom of page
