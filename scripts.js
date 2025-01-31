@@ -225,7 +225,6 @@ function displayController() {
 displayController();
 
 // TO DO // In no particular order.
-// Find way to remove eventListener
 // Add Winner message modal with restart button (find who the winner is.)
 // Add modal for players names with start game button
 // Add reset game button at bottom of page
