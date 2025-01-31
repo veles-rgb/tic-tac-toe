@@ -58,3 +58,19 @@ body {
     font-size: 3rem;
     text-shadow: 1px 1px 1px white;
 }
+
+dialog {
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+dialog::backdrop {
+    background-color: #000000;
+    opacity: 0.75;
+}
+
+.name-modal-container {
+    display: flex;
+    flex-direction: column;
+}
