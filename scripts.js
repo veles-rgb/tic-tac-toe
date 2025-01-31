@@ -182,6 +182,10 @@ function displayController() {
             turnDiv.textContent = `${activePlayer.name}'s turn.`;
         };
 
+        if (game.gameOver) {
+            removeEventListener()
+        }
+
         // Render the board cells
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
@@ -208,6 +212,10 @@ function displayController() {
         // Play the round
         game.playRound(row, column);
         updateDisplay();
+    };
+
+    function removeEventListener() {
+        boardDiv.removeEventListener("click", boardClickHandler);
     };
 
     boardDiv.addEventListener("click", boardClickHandler);
