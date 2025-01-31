@@ -9,7 +9,22 @@
     <script src="./scripts.js" defer></script>
 </head>
 <body>
+    <dialog class="name-modal">
+        <div class="name-modal-container">
+            <h1>Enter player names</h1>
+
+            <label for="player1name">Player 1's name</label>
+            <input type="text" name="player1name" id="player1name">
+
+            <label for="player2name">Player 2's name</label>
+            <input type="text" name="player2name" id="player2name">
+
+            <button class="start-game-btn">Start Game</button>
+            <button>Close</button>
+        </div>
+    </dialog>
     <div class="game-container">
+        <button class="start-btn">Start</button>
         <h1 class="turn"></h1>
         <div class="board"></div>
     </div>
