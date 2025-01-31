@@ -204,8 +204,9 @@ function displayController() {
 
 displayController();
 
-// TO DO //
-// Add game over functionality (game stops when win, remove eventListeners?)
+// TO DO // In no particular order.
+// Add functionality for tie game (if board full and no winner = tie)
+// Add game over functionality (game stops when win or tie, remove eventListeners?)
 // Add Winner message modal with restart button
 // Add modal for players names with start game button
 // Add reset game button at bottom of page
