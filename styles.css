@@ -23,7 +23,7 @@ body {
 }
 
 .board {
-    display: grid;
+    display: none;
     width: 35rem;
     height: 30rem;
     padding: 0.5rem;
@@ -57,6 +57,27 @@ body {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 3rem;
     text-shadow: 1px 1px 1px white;
+}
+
+.start-btn {
+    width: 10rem;
+    height: 5rem;
+    background-color: black;
+    color: white;
+    border: 0.5rem solid white;
+    box-shadow: 0px 0px 25px 1px white;
+    font-size: 2rem;
+    font-weight: 1000;
+    transition: all 1s ease 0s;
+}
+
+.start-btn:hover {
+    cursor: pointer;
+    transition: all 1s ease 0s;
+    text-shadow: 1px 1px 1px white;
+    width: 15rem;
+    height: 10rem;
+    font-size: 4rem;
 }
 
 dialog {
