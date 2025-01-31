@@ -78,7 +78,7 @@ function gameController(
     ];
 
     // Game over flag.
-    let gameOver = false
+    let gameOver = false;
 
     // Set active player.
     let activePlayer = players[0];
@@ -103,40 +103,40 @@ function gameController(
 
     // Play round based on chosen row & column.
     const playRound = (row, column) => {
-
         // End game if the game is over.
         if (gameOver) return;
 
         // If cell choice is not empty, replay turn, otherwise continue.
         if (!board.placeSymbol(row, column, getActivePlayer().symbol)) {
             console.log("You cannot place your symbol here!");
-            return
-        }
+            return;
+        };
 
         // If player can place symbol log in console.
         console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
 
         // Checks for win or tie.
         if (checkForWin()) {
-            gameOver = true
-            return
-        }
+            console.log(`${getActivePlayer().name} wins!`);
+            gameOver = true;
+            return;
+        };
         if (checkForTie()) {
-            console.log("It's a tie. Game Over!") //Test
-            gameOver = true
-            return
-        }
+            console.log("It's a tie! Game Over.");
+            gameOver = true;
+            return;
+        };
 
-        // If game not over and no win/tie continue
+        // If game not over and no win/tie continue.
         switchPlayerTurn();
         printNewRound();
     };
 
     const checkForWin = () => {
         // Turn 2D array of board into a flat array.
-        const flatBoard = board.getBoard().flat()
+        const flatBoard = board.getBoard().flat();
         // map over flatBoard and replace each cell with its value.
-        const mapFlatBoard = flatBoard.map(cell => cell.getValue())
+        const mapFlatBoard = flatBoard.map(cell => cell.getValue());
         // Loop through winning combos and compare with mapFlatBoard indices.
         const winCombo = board.winCombinations;
         for (let combo = 0; combo < winCombo.length; combo++) {
@@ -145,7 +145,6 @@ function gameController(
                 mapFlatBoard[winCombo[combo][1]] ===
                 mapFlatBoard[winCombo[combo][2]] &&
                 mapFlatBoard[winCombo[combo][2]] !== "") {
-                console.log(`${getActivePlayer().name} wins!`);
                 return true;
             };
         };
@@ -157,7 +156,7 @@ function gameController(
         return flatBoard.every(cell => cell.getValue() !== "");
     };
 
-    return { getBoard: board.getBoard, playRound, getActivePlayer, };
+    return { getBoard: board.getBoard, playRound, getActivePlayer, gameOver, checkForWin, checkForTie };
 };
 
 function displayController() {
@@ -166,29 +165,31 @@ function displayController() {
     const boardDiv = document.querySelector(".board");
 
     const updateDisplay = () => {
-        // clear the board
         boardDiv.textContent = "";
 
-        // get the newest version of the board and player turn
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
 
-        // Display player's turn
-        turnDiv.textContent = `${activePlayer.name}'s turn.`;
+        // First check for win or tie, and display the result if the game is over.
+        if (game.checkForWin()) {
+            turnDiv.textContent = `${activePlayer.name} wins!`;
+            game.gameOver = true;
+        } else if (game.checkForTie()) {
+            turnDiv.textContent = "It's a tie! Game Over.";
+            game.gameOver = true;
+        } else {
+            // If game not over, display the current player's turn.
+            turnDiv.textContent = `${activePlayer.name}'s turn.`;
+        };
 
-        // Render board cells
+        // Render the board cells
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
-                // Create buttons for each cell
                 const cellBtn = document.createElement("button");
-                // Add cell class
                 cellBtn.classList.add("cell");
-                // Add dataset for row and column index
                 const cellIndex = rowIndex * 3 + columnIndex;
                 cellBtn.setAttribute("cell-index", cellIndex);
-                // Change cell text content
                 cellBtn.textContent = cell.getValue();
-                // Append cell
                 boardDiv.appendChild(cellBtn);
             });
         });
@@ -201,21 +202,22 @@ function displayController() {
 
         if (!cellIndex) return;
 
-        // Convert cellIndex to row and column
         const row = Math.floor(cellIndex / 3);
         const column = cellIndex % 3;
+
+        // Play the round
         game.playRound(row, column);
         updateDisplay();
     };
 
     boardDiv.addEventListener("click", boardClickHandler);
-
     updateDisplay();
 };
 
 displayController();
 
 // TO DO // In no particular order.
+// Find way to remove eventListener
 // Add Winner message modal with restart button (find who the winner is.)
 // Add modal for players names with start game button
 // Add reset game button at bottom of page
