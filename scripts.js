@@ -92,7 +92,7 @@ function gameController(
         };
     };
 
-    // Get the active player...
+    // Get the active player.
     const getActivePlayer = () => activePlayer;
 
     // Display board for new round.
@@ -103,9 +103,11 @@ function gameController(
 
     // Play round based on chosen row & column.
     const playRound = (row, column) => {
+
+        // End game if the game is over.
         if (gameOver) return;
 
-        // If cell choice is not empty, replay turn, otherwise play.
+        // If cell choice is not empty, replay turn, otherwise continue.
         if (!board.placeSymbol(row, column, getActivePlayer().symbol)) {
             console.log("You cannot place your symbol here!");
             return
@@ -114,20 +116,18 @@ function gameController(
         // If player can place symbol log in console.
         console.log(`Placing ${getActivePlayer().name}'s ${getActivePlayer().symbol} in row ${row}, column ${column}`);
 
-        // Check for a win.
+        // Checks for win or tie.
         if (checkForWin()) {
-            console.log("Win check true.")
             gameOver = true
             return
         }
-
-        // Check for a tie.
         if (checkForTie()) {
-            console.log("Tie check true.")
+            console.log("It's a tie. Game Over!") //Test
             gameOver = true
             return
         }
 
+        // If game not over and no win/tie continue
         switchPlayerTurn();
         printNewRound();
     };
@@ -145,7 +145,7 @@ function gameController(
                 mapFlatBoard[winCombo[combo][1]] ===
                 mapFlatBoard[winCombo[combo][2]] &&
                 mapFlatBoard[winCombo[combo][2]] !== "") {
-                console.log("Winning Combo detected");
+                console.log(`${getActivePlayer().name} wins!`);
                 return true;
             };
         };
@@ -157,7 +157,7 @@ function gameController(
         return flatBoard.every(cell => cell.getValue() !== "");
     };
 
-    return { getBoard: board.getBoard, playRound, getActivePlayer };
+    return { getBoard: board.getBoard, playRound, getActivePlayer, };
 };
 
 function displayController() {
@@ -204,7 +204,6 @@ function displayController() {
         // Convert cellIndex to row and column
         const row = Math.floor(cellIndex / 3);
         const column = cellIndex % 3;
-
         game.playRound(row, column);
         updateDisplay();
     };
