@@ -117,11 +117,13 @@ function gameController(
 
         // Checks for win or tie.
         if (checkForWin()) {
+            board.displayBoard();
             console.log(`${getActivePlayer().name} wins!`);
             gameOver = true;
             return;
         };
         if (checkForTie()) {
+            board.displayBoard();
             console.log("It's a tie! Game Over.");
             gameOver = true;
             return;
@@ -172,7 +174,7 @@ function displayController() {
 
         // First check for win or tie, and display the result if the game is over.
         if (game.checkForWin()) {
-            turnDiv.textContent = `${activePlayer.name} wins!`;
+            turnDiv.textContent = `${activePlayer.name} wins! Game Over.`;
             game.gameOver = true;
         } else if (game.checkForTie()) {
             turnDiv.textContent = "It's a tie! Game Over.";
