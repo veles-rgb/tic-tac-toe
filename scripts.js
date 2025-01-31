@@ -230,6 +230,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const startGameBtn = document.querySelector(".start-game-btn");
     const playerOneInput = document.querySelector("#player1name");
     const playerTwoInput = document.querySelector("#player2name");
+    const hiddenGameBoard = document.querySelector(".board")
 
     startBtn.addEventListener("click", () => {
         playerNameModal.showModal();
@@ -241,11 +242,12 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
 
         displayController(playerOneName, playerTwoName);
         playerNameModal.close();
+        startBtn.remove()
+        // Change display of .board to grid (was none)
+        hiddenGameBoard.style.display = "grid";
     });
 })()
 
-
 // TO DO // In no particular order.
 // Add Winner message modal with restart button (find who the winner is.)
-// Add modal for players names with start game button
 // Add reset game button at bottom of page
