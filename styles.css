@@ -114,3 +114,66 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
 }
+
+.game-over-modal {
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: red;
+}
+
+@keyframes customAni {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.game-over-modal::backdrop {
+    background-color: rgb(0, 0, 0);
+    opacity: 0.5;
+    animation: customAni 10s ease 0s infinite normal none;
+}
+
+.game-over-modal-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 900;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.game-over-modal-container h1 {
+    font-size: 3rem;
+}
+
+.game-over-modal-container button {
+    display: none;
+    font-size: 1.5rem;
+    width: 10rem;
+    height: 5rem;
+    background-color: black;
+    color: red;
+    border: 0.2rem solid red;
+    border-radius: 2rem;
+    box-shadow: 0px 0px 5px 1px red;
+    transition: all 1s ease 0s;
+}
+
+.game-over-modal-container button:hover {
+    cursor: pointer;
+    width: 11rem;
+    height: 6rem;
+}

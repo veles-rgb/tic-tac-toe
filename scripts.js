@@ -192,16 +192,27 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
 
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
+        const gameOverModal = document.querySelector(".game-over-modal");
+
+        function gameOverModalControl() {
+            const gameOverModalBtn = document.querySelector(".game-over-modal .restart-btn")
+            const boardRestartBtn = document.querySelector(".game-container .restart-btn")
+            gameOverModal.showModal();
+            gameOverModalBtn.style.display = "block"
+            boardRestartBtn.style.display = "none"
+        }
 
         // Check for win or tie
         if (game.checkForWin()) {
             turnDiv.textContent = `${activePlayer.name} wins!`;
             game.gameOver = true;
             removeBoardClickListener();
+            gameOverModalControl()
         } else if (game.checkForTie()) {
             turnDiv.textContent = "It's a tie!";
             game.gameOver = true;
             removeBoardClickListener();
+            gameOverModalControl()
         } else {
             turnDiv.textContent = `${activePlayer.name}'s turn.`;
         }
@@ -234,7 +245,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const playerTwoInput = document.querySelector("#player2name");
     const closeModalBtn = document.querySelector(".close-modal-btn")
     const hiddenGameBoard = document.querySelector(".board")
-    const restartBtn = document.querySelector(".restart-btn")
+    const restartBtn = document.querySelectorAll(".restart-btn")
 
     startBtn.addEventListener("click", () => {
         playerNameModal.showModal();
@@ -250,13 +261,16 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
 
         displayController(playerOneName, playerTwoName);
         playerNameModal.close();
-        startBtn.remove()
-        // Change display of .board to grid (was none)
+        startBtn.remove();
+        // Change display of .board to grid (was none).
         hiddenGameBoard.style.display = "grid";
-        restartBtn.style.display = "block";
+        // Change display of all restart buttons to block (was none).
+        restartBtn.forEach(e => {
+            e.style.display = "block";
+        });
     });
 
-    restartBtn.addEventListener("click", () => {
+    function restartGame() {
         console.log("Game restarting...");
 
         // Remove the old board event listener
@@ -270,9 +284,16 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
 
         // Start a fresh game
         displayController(playerOneName, playerTwoName);
+    }
+
+    // Add event listener to both restart buttons
+    restartBtn.forEach(e => {
+        e.addEventListener("click", () => {
+            restartGame()
+            document.querySelector(".game-over-modal").close();
+        });
     });
 })()
 
 // TO DO // In no particular order.
 // Add Winner message modal with restart button
-// Make close modal button work
