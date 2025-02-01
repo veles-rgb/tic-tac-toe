@@ -124,7 +124,7 @@ function gameController(
         };
         if (checkForTie()) {
             board.displayBoard();
-            console.log("It's a tie! Game Over.");
+            console.log("It's a tie!");
             gameOver = true;
             return;
         };
@@ -195,11 +195,11 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
 
         // Check for win or tie
         if (game.checkForWin()) {
-            turnDiv.textContent = `${activePlayer.name} wins! Game Over.`;
+            turnDiv.textContent = `${activePlayer.name} wins!`;
             game.gameOver = true;
             removeBoardClickListener();
         } else if (game.checkForTie()) {
-            turnDiv.textContent = "It's a tie! Game Over.";
+            turnDiv.textContent = "It's a tie!";
             game.gameOver = true;
             removeBoardClickListener();
         } else {
@@ -223,7 +223,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     boardDiv.addEventListener("click", boardClickHandler);
 
     updateDisplay();
-}
+};
 
 // IIFE for button / modal variables and eventListeners
 (function () {
@@ -232,11 +232,16 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const startGameBtn = document.querySelector(".start-game-btn");
     const playerOneInput = document.querySelector("#player1name");
     const playerTwoInput = document.querySelector("#player2name");
+    const closeModalBtn = document.querySelector(".close-modal-btn")
     const hiddenGameBoard = document.querySelector(".board")
     const restartBtn = document.querySelector(".restart-btn")
 
     startBtn.addEventListener("click", () => {
         playerNameModal.showModal();
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+        playerNameModal.close()
     });
 
     startGameBtn.addEventListener("click", () => {
