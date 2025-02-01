@@ -8,8 +8,8 @@ function gameBoard() {
         board[r] = [];
         for (let c = 0; c < columns; c++) {
             board[r].push(Cell());
-        }
-    }
+        };
+    };
 
     const winCombinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontally
@@ -166,7 +166,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const turnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
-    // Event listener function (must be the same reference for removeEventListener to work)
+    // Event listener function (must be the same reference for removeEventListener to work).
     function boardClickHandler(e) {
         const selectedCell = e.target;
         const cellIndex = selectedCell.getAttribute("cell-index");
@@ -176,17 +176,17 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
         const row = Math.floor(cellIndex / 3);
         const column = cellIndex % 3;
 
-        // Play the round
+        // Play the round.
         game.playRound(row, column);
         updateDisplay();
-    }
+    };
 
-    // Function to remove event listener
+    // Function to remove event listener.
     function removeBoardClickListener() {
         boardDiv.removeEventListener("click", boardClickHandler);
-    }
+    };
 
-    // Update display
+    // Update display.
     function updateDisplay() {
         boardDiv.textContent = "";
 
@@ -195,24 +195,24 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
         const gameOverModal = document.querySelector(".game-over-modal");
 
         function gameOverModalControl() {
-            const gameOverModalBtn = document.querySelector(".game-over-modal .restart-btn")
-            const boardRestartBtn = document.querySelector(".game-container .restart-btn")
+            const gameOverModalBtn = document.querySelector(".game-over-modal .restart-btn");
+            const boardRestartBtn = document.querySelector(".game-container .restart-btn");
             gameOverModal.showModal();
-            gameOverModalBtn.style.display = "block"
-            boardRestartBtn.style.display = "none"
-        }
+            gameOverModalBtn.style.display = "block";
+            boardRestartBtn.style.display = "none";
+        };
 
-        // Check for win or tie
+        // Check for win or tie.
         if (game.checkForWin()) {
             turnDiv.textContent = `${activePlayer.name} wins!`;
             game.gameOver = true;
             removeBoardClickListener();
-            gameOverModalControl()
+            gameOverModalControl();
         } else if (game.checkForTie()) {
             turnDiv.textContent = "It's a tie!";
             game.gameOver = true;
             removeBoardClickListener();
-            gameOverModalControl()
+            gameOverModalControl();
         } else {
             turnDiv.textContent = `${activePlayer.name}'s turn.`;
         }
@@ -228,31 +228,31 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
                 boardDiv.appendChild(cellBtn);
             });
         });
-    }
+    };
 
-    // Attach event listener ONCE
+    // Attach event listener ONCE.
     boardDiv.addEventListener("click", boardClickHandler);
 
     updateDisplay();
 };
 
-// IIFE for button / modal variables and eventListeners
+// IIFE for button / modal variables and eventListeners.
 (function () {
     const startBtn = document.querySelector(".start-btn");
     const playerNameModal = document.querySelector(".name-modal");
     const startGameBtn = document.querySelector(".start-game-btn");
     const playerOneInput = document.querySelector("#player1name");
     const playerTwoInput = document.querySelector("#player2name");
-    const closeModalBtn = document.querySelector(".close-modal-btn")
-    const hiddenGameBoard = document.querySelector(".board")
-    const restartBtn = document.querySelectorAll(".restart-btn")
+    const closeModalBtn = document.querySelector(".close-modal-btn");
+    const hiddenGameBoard = document.querySelector(".board");
+    const restartBtn = document.querySelectorAll(".restart-btn");
 
     startBtn.addEventListener("click", () => {
         playerNameModal.showModal();
     });
 
     closeModalBtn.addEventListener("click", () => {
-        playerNameModal.close()
+        playerNameModal.close();
     });
 
     startGameBtn.addEventListener("click", () => {
@@ -273,28 +273,25 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     function restartGame() {
         console.log("Game restarting...");
 
-        // Remove the old board event listener
+        // Remove the old board event listener.
         const boardDiv = document.querySelector(".board");
         const newBoardDiv = boardDiv.cloneNode(true);
         boardDiv.parentNode.replaceChild(newBoardDiv, boardDiv);
 
-        // Get current player names
+        // Get current player names.
         const playerOneName = document.querySelector("#player1name").value || "Player 1";
         const playerTwoName = document.querySelector("#player2name").value || "Player 2";
 
-        // Start a fresh game
+        // Start a fresh game.
         displayController(playerOneName, playerTwoName);
     }
 
-    // Add event listener to both restart buttons
+    // Add event listener to both restart buttons.
     restartBtn.forEach(e => {
         e.addEventListener("click", () => {
-            restartGame()
+            restartGame();
             document.querySelector(".game-over-modal").close();
-            document.querySelector(".game-container .restart-btn").style.display = "block"
+            document.querySelector(".game-container .restart-btn").style.display = "block";
         });
     });
 })()
-
-// TO DO // In no particular order.
-// Add Winner message modal with restart button
