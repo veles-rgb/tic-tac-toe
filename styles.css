@@ -79,6 +79,10 @@ body {
     height: 6rem;
 }
 
+.restart-btn {
+    display: none;
+}
+
 dialog {
     margin: auto;
     justify-content: center;

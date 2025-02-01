@@ -166,42 +166,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const turnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
-    const updateDisplay = () => {
-        boardDiv.textContent = "";
-
-        const board = game.getBoard();
-        const activePlayer = game.getActivePlayer();
-
-        // First check for win or tie, and display the result if the game is over.
-        if (game.checkForWin()) {
-            turnDiv.textContent = `${activePlayer.name} wins! Game Over.`;
-            game.gameOver = true;
-        } else if (game.checkForTie()) {
-            turnDiv.textContent = "It's a tie! Game Over.";
-            game.gameOver = true;
-        } else {
-            // If game not over, display the current player's turn.
-            turnDiv.textContent = `${activePlayer.name}'s turn.`;
-        };
-
-        if (game.gameOver) {
-            removeEventListener()
-        }
-
-        // Render the board cells
-        board.forEach((row, rowIndex) => {
-            row.forEach((cell, columnIndex) => {
-                const cellBtn = document.createElement("button");
-                cellBtn.classList.add("cell");
-                const cellIndex = rowIndex * 3 + columnIndex;
-                cellBtn.setAttribute("cell-index", cellIndex);
-                cellBtn.textContent = cell.getValue();
-                boardDiv.appendChild(cellBtn);
-            });
-        });
-    };
-
-    // Add event listener to board
+    // Event listener function (must be the same reference for removeEventListener to work)
     function boardClickHandler(e) {
         const selectedCell = e.target;
         const cellIndex = selectedCell.getAttribute("cell-index");
@@ -214,16 +179,53 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
         // Play the round
         game.playRound(row, column);
         updateDisplay();
-    };
+    }
 
-    function removeEventListener() {
+    // Function to remove event listener
+    function removeBoardClickListener() {
         boardDiv.removeEventListener("click", boardClickHandler);
-    };
+    }
 
+    // Update display
+    function updateDisplay() {
+        boardDiv.textContent = "";
+
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        // Check for win or tie
+        if (game.checkForWin()) {
+            turnDiv.textContent = `${activePlayer.name} wins! Game Over.`;
+            game.gameOver = true;
+            removeBoardClickListener();
+        } else if (game.checkForTie()) {
+            turnDiv.textContent = "It's a tie! Game Over.";
+            game.gameOver = true;
+            removeBoardClickListener();
+        } else {
+            turnDiv.textContent = `${activePlayer.name}'s turn.`;
+        }
+
+        // Display the board cells
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                const cellBtn = document.createElement("button");
+                cellBtn.classList.add("cell");
+                const cellIndex = rowIndex * 3 + columnIndex;
+                cellBtn.setAttribute("cell-index", cellIndex);
+                cellBtn.textContent = cell.getValue();
+                boardDiv.appendChild(cellBtn);
+            });
+        });
+    }
+
+    // Attach event listener ONCE
     boardDiv.addEventListener("click", boardClickHandler);
-    updateDisplay();
-};
 
+    updateDisplay();
+}
+
+// IIFE for button / modal variables and eventListeners
 (function () {
     const startBtn = document.querySelector(".start-btn");
     const playerNameModal = document.querySelector(".name-modal");
@@ -231,6 +233,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
     const playerOneInput = document.querySelector("#player1name");
     const playerTwoInput = document.querySelector("#player2name");
     const hiddenGameBoard = document.querySelector(".board")
+    const restartBtn = document.querySelector(".restart-btn")
 
     startBtn.addEventListener("click", () => {
         playerNameModal.showModal();
@@ -245,9 +248,26 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
         startBtn.remove()
         // Change display of .board to grid (was none)
         hiddenGameBoard.style.display = "grid";
+        restartBtn.style.display = "block";
+    });
+
+    restartBtn.addEventListener("click", () => {
+        console.log("Game restarting...");
+
+        // Remove the old board event listener
+        const boardDiv = document.querySelector(".board");
+        const newBoardDiv = boardDiv.cloneNode(true);
+        boardDiv.parentNode.replaceChild(newBoardDiv, boardDiv);
+
+        // Get current player names
+        const playerOneName = document.querySelector("#player1name").value || "Player 1";
+        const playerTwoName = document.querySelector("#player2name").value || "Player 2";
+
+        // Start a fresh game
+        displayController(playerOneName, playerTwoName);
     });
 })()
 
 // TO DO // In no particular order.
-// Add Winner message modal with restart button (find who the winner is.)
-// Add reset game button at bottom of page
+// Add Winner message modal with restart button
+// Make close modal button work
