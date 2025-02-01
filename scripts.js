@@ -291,6 +291,7 @@ function displayController(playerOneName = "Player 1", playerTwoName = "Player 2
         e.addEventListener("click", () => {
             restartGame()
             document.querySelector(".game-over-modal").close();
+            document.querySelector(".game-container .restart-btn").style.display = "block"
         });
     });
 })()
