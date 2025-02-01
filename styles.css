@@ -124,37 +124,21 @@ dialog::backdrop {
     color: red;
 }
 
-@-webkit-keyframes customAni {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 1;
-    }
+@-webkit-keyframes blink-1 {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
 }
 
-@keyframes customAni {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
+@keyframes blink-1 {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
 }
 
 .game-over-modal::backdrop {
     background-color: rgb(0, 0, 0);
     opacity: 0.5;
-    -webkit-animation: customAni 10s ease 0s infinite normal none;
-    animation: customAni 10s ease 0s infinite normal none;
+    -webkit-animation: blink-1 10s infinite both;
+    animation: blink-1 10s infinite both;
 }
 
 .game-over-modal-container {
@@ -177,7 +161,7 @@ dialog::backdrop {
     font-size: 1.5rem;
     width: 10rem;
     height: 5rem;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0);
     color: red;
     border: 0.2rem solid red;
     border-radius: 2rem;
